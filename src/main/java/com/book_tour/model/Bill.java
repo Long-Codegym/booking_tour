@@ -18,6 +18,7 @@ public class Bill {
     private Date dateEnd;
     private long price;
     private long total;
+    private int persons;
     private String note;
     @ManyToOne
     private Tour tour;
