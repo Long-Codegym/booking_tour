@@ -19,5 +19,4 @@ public class BillController {
         return new ResponseEntity<>(iBillService.createBill2(bill), HttpStatus.OK);
     }
 
-
 }

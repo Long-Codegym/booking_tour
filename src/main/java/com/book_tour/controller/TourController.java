@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/tours")
 public class TourController {
     @Autowired
+
     ITourService iTourService;
 
     @GetMapping("/allTour")
@@ -21,7 +22,7 @@ public class TourController {
         return new ResponseEntity<>(iTourService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id_Tour}")
+    @GetMapping("/detail/{id_Tour}")
     public ResponseEntity<Tour> getTourByID(@PathVariable long id_Tour) {
         return new ResponseEntity<>(iTourService.getById(id_Tour), HttpStatus.OK);
     }
