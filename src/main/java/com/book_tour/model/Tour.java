@@ -19,6 +19,9 @@ public class Tour {
     private int tourTime;
     private String schedule;
     private int bookings;
+    private long discount;
+    private String img;
+    private String describes;
     @ManyToOne
     private City city;
     @ManyToMany(fetch = FetchType.EAGER)

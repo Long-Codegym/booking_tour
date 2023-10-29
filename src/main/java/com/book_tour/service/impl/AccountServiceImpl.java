@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
@@ -31,6 +32,11 @@ public class AccountServiceImpl implements IAccountService {
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(account.getRole());
         return new User(account.getUsername(), account.getPassword(), roles);
+    }
+
+    @Override
+    public Optional<Account> login(String username, String password) {
+        return iAccountRepository.getAccountByUsernameAndPassword(username, password);
     }
 
     @Override
