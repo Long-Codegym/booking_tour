@@ -23,8 +23,12 @@ public class Tour {
     private String img;
     private String describes;
     @ManyToOne
+    private Account account;
+    @ManyToOne
     private City city;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Supply> supplies;
+    @OneToMany
+    private List<TourSchedule> tourSchedule;
     private Boolean isActive;
 }

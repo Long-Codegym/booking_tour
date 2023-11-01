@@ -18,26 +18,27 @@ public class TourServiceImpl implements ITourService {
     ITourRepository iTourRepository;
     @Override
     public List<Tour> getAll() {
-        return null;
+        return iTourRepository.findAll();
     }
 
     @Override
     public Tour getById(long id) {
-        return null;
+        return iTourRepository.getById(id);
     }
 
     @Override
     public Tour create(Tour tour) {
-        return null;
+        return iTourRepository.save(tour);
     }
 
     @Override
     public Tour edit(Tour tour) {
-        return null;
+        return iTourRepository.save(tour);
     }
 
     @Override
     public void deleteById(long id) {
+        iTourRepository.deleteById(id);
 
     }
 
@@ -68,7 +69,8 @@ public class TourServiceImpl implements ITourService {
         Long idCity = filterTour.getIdCity();
         Long minPrice = filterTour.getMinPrice();
         Long maxPrice = filterTour.getMaxPrice();
-        List<TourDTO> tourDTOList = iTourRepository.getAllTourByFilter(idCity,minPrice,maxPrice);
+        String nameZOne = filterTour.getNameZone();
+        List<TourDTO> tourDTOList = iTourRepository.getAllTourByFilter(idCity,nameZOne,minPrice,maxPrice);
         return tourDTOList;
     }
 }

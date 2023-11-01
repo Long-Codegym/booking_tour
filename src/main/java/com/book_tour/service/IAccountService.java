@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
 
-public interface IAccountService extends UserDetailsService {
+public interface IAccountService extends UserDetailsService ,ICrudService<Account>{
+    public String register(Account account);
     Optional<Account> login(String username, String password);
+
 }
