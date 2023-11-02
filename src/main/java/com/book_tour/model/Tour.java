@@ -28,7 +28,7 @@ public class Tour {
     private City city;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Supply> supplies;
-    @OneToMany
+    @ManyToMany
     private List<TourSchedule> tourSchedule;
     private Boolean isActive;
 }

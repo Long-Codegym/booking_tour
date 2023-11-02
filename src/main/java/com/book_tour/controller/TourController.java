@@ -14,11 +14,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("*")
 @RestController
+@Transactional
 @RequestMapping("/tours")
 public class TourController {
     @Autowired
@@ -27,7 +33,8 @@ public class TourController {
     IImageService iImageService;
     @Autowired
     ITourScheduleService iTourScheduleService;
-
+    @PersistenceContext
+    EntityManager entityManager;
     @GetMapping
     public ResponseEntity<List<Tour>> getTourFeaturedThisMonth() {
         return new ResponseEntity<>(iTourService.findPopularToursInCurrentMonth(), HttpStatus.OK);
@@ -63,30 +70,14 @@ public class TourController {
     }
     @PostMapping("/createTour")
     public ResponseEntity<Tour> createTour(@RequestBody CreateDTO createDTO) {
-        Tour tour = createDTO.getTour();
-        List<TourSchedule> tourSchedules = createDTO.getTourSchedules();
-        List<TourSchedule> savedTourSchedules = new ArrayList<>();
-        for (TourSchedule schedule : tourSchedules) {
-            TourSchedule savedSchedule = iTourScheduleService.create(schedule);
-            savedTourSchedules.add(savedSchedule);
+        Tour tour = iTourService.create(createDTO.getTour());
+        List<TourSchedule> tourSchedules=iTourScheduleService.saveAll(createDTO.getTourSchedules());
+        for(int i=0;i<tourSchedules.size();i++) {
+            entityManager.createNativeQuery("INSERT INTO tour_tour_schedule (tour_id, tour_schedule_id) VALUES (?, ?)")
+                    .setParameter(1, tour.getId())
+                    .setParameter(2, tourSchedules.get(i).getId())
+                    .executeUpdate();
         }
-        Tour tour1 = new Tour();
-        tour1.setAccount(tour.getAccount());
-        tour1.setCity(tour.getCity());
-        tour1.setName(tour.getName());
-        tour1.setPrice(tour.getPrice());
-        tour1.setTourTime(tour.getTourTime());
-        tour1.setDiscount(tour.getDiscount());
-        tour1.setDescribes(tour.getDescribes());
-        tour1.setSupplies(tour.getSupplies());
-        tour1.setImg(tour.getImg());
-        tour1.setConvenientWard(tour.getConvenientWard());
-        tour1.setIsActive(tour.getIsActive());
-        tour1.setTourSchedule(savedTourSchedules);
-
-        Tour tour2 = iTourService.create(tour1);
-        return new ResponseEntity<>(tour2, HttpStatus.OK);
+        return new ResponseEntity<>(tour, HttpStatus.OK);
     }
-
-
 }
