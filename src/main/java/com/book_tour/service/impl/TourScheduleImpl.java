@@ -25,8 +25,7 @@ public class TourScheduleImpl implements ITourScheduleService {
 
     @Override
     public TourSchedule create(TourSchedule tourSchedule) {
-        TourSchedule tourSchedule1 = iTourScheduleRepository.save(tourSchedule);
-        return tourSchedule1;
+        return iTourScheduleRepository.save(tourSchedule);
     }
 
     @Override
@@ -36,5 +35,10 @@ public class TourScheduleImpl implements ITourScheduleService {
 
     @Override
     public void deleteById(long id) {
+    }
+
+    @Override
+    public List<TourSchedule> saveAll(List<TourSchedule> tourSchedules) {
+        return iTourScheduleRepository.saveAll(tourSchedules);
     }
 }
