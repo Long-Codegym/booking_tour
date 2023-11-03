@@ -33,4 +33,6 @@ public class Tour {
     @ManyToMany
     private List<TourSchedule> tourSchedule;
     private Boolean isActive;
+    @ManyToOne
+    private Account poster;
 }

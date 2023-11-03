@@ -40,13 +40,37 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public List getAll() {
-        return null;
+    public String editAccByAdmin(Account account,long id) {
+        Account accountEdit=iAccountRepository.findById(id).get();
+        if(accountEdit.getRole().equals("ROEL_ADMIN")){
+            iAccountRepository.save(account);
+            return "Done";
+        } else {
+            return "405 Đây là quyền sửa của Admin";
+        }
+    }
+
+    @Override
+    public String deleteAccByAdmin(Account account, long id) {
+        Account accountEdit=iAccountRepository.findById(id).get();
+        if(accountEdit.getRole().equals("ROEL_ADMIN")){
+            account.setIsActive(false);
+            iAccountRepository.save(account);
+            return "Done";
+        } else {
+            return "405 Đây là quyền sửa của Admin";
+        }
+    }
+
+
+    @Override
+    public List<Account> getAll() {
+        return iAccountRepository.findAll();
     }
 
     @Override
     public Account getById(long id) {
-        return null;
+        return iAccountRepository.findById(id).get();
     }
 
     @Override
@@ -61,7 +85,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public void deleteById(long id) {
-
+        iAccountRepository.deleteById(id);
     }
 
 
@@ -79,5 +103,7 @@ public class AccountServiceImpl implements IAccountService {
         create(account);
         return "Done";
     }
+
+
 
 }
