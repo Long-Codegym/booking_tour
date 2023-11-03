@@ -20,7 +20,9 @@ public class Tour {
     private String schedule;
     private int bookings;
     private long discount;
+    @Lob
     private String img;
+    @Lob
     private String describes;
     @ManyToOne
     private Account account;

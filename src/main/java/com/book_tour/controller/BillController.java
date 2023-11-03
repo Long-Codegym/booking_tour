@@ -21,6 +21,6 @@ public class BillController {
     @PostMapping
     public ResponseEntity<?> addBill(@RequestBody Bill bill){
         iBillService.createBill2(bill);
-        return new ResponseEntity<>("Tạo đơn thành công",HttpStatus.OK);
+        return new ResponseEntity<>(iBillService.createBill2(bill),HttpStatus.OK);
     }
 }

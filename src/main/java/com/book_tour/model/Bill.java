@@ -20,6 +20,7 @@ public class Bill {
     private long total;
     private int persons;
     private int children;
+    @Lob
     private String note;
     private String numberPhone;
     private String address;
