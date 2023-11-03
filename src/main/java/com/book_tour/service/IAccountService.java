@@ -10,4 +10,6 @@ public interface IAccountService extends UserDetailsService ,ICrudService<Accoun
     public String register(Account account);
     Optional<Account> login(String username, String password);
 
+    public String editAccByAdmin(Account account,long id);
+    public String deleteAccByAdmin(Account account,long id);
 }

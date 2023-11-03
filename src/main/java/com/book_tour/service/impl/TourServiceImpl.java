@@ -21,7 +21,7 @@ public class TourServiceImpl implements ITourService {
 
     @Override
     public Tour getById(long id) {
-        return iTourRepository.getById(id);
+        return iTourRepository.findTourByIdIs(id);
     }
 
     @Override

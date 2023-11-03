@@ -45,8 +45,8 @@ public class TourController {
         return new ResponseEntity<>(iTourService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/detail/{id_Tour}")
-    public ResponseEntity<Tour> getTourByID(@PathVariable long id_Tour) {
-        return new ResponseEntity<>(iTourService.getById(id_Tour), HttpStatus.OK);
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Tour> getTourByID(@PathVariable long id) {
+        return new ResponseEntity<>(iTourService.getById(id), HttpStatus.OK);
     }
 }

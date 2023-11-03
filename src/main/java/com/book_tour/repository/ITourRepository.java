@@ -16,4 +16,5 @@ public interface ITourRepository extends JpaRepository<Tour,Long> {
     List<Tour> findPopularToursInMonth(int month, int year);
     @Query(value = "select t FROM Tour t join City c on t.city.id = c.id join Zone z on c.zone.id = z.id where z.name = :nameZone")
     List<Tour> getAllTourByZone(@Param("nameZone") String nameZone);
+   Tour findTourByIdIs(long id);
 }

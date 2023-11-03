@@ -27,4 +27,6 @@ public class Tour {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Supply> supplies;
     private Boolean isActive;
+    @ManyToOne
+    private Account poster;
 }
