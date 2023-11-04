@@ -40,10 +40,24 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public String editAccByAdmin(Account account,long id) {
-        Account accountEdit=iAccountRepository.findById(id).get();
-        if(accountEdit.getRole().equals("ROEL_ADMIN")){
-            iAccountRepository.save(account);
+
+    public String editAccByAdmin(Account account, long id) {
+        Account accountAdmin = iAccountRepository.findById(id).get();
+        Account accountEdit = iAccountRepository.findById(account.getId()).get();
+        if(account.getRole().getName().equals("ROLE_ADMIN")){
+            return "Vào mục khác để sửa nhé ";
+        }
+        if (accountAdmin.getRole().getName().equals("ROLE_ADMIN")) {
+            accountEdit.setPassword(account.getPassword());
+            accountEdit.setFullName(account.getFullName());
+            accountEdit.setAvatar(account.getAvatar());
+            accountEdit.setEmail(account.getEmail());
+            accountEdit.setAddress(account.getAddress());
+            accountEdit.setBalance(account.getBalance());
+            accountEdit.setRole(account.getRole());
+            accountEdit.setStatus(account.getStatus());
+            accountEdit.setIsActive(account.getIsActive());
+            iAccountRepository.save(accountEdit);
             return "Done";
         } else {
             return "405 Đây là quyền sửa của Admin";
@@ -52,8 +66,8 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public String deleteAccByAdmin(Account account, long id) {
-        Account accountEdit=iAccountRepository.findById(id).get();
-        if(accountEdit.getRole().equals("ROEL_ADMIN")){
+        Account accountEdit = iAccountRepository.findById(id).get();
+        if (accountEdit.getRole().equals("ROEL_ADMIN")) {
             account.setIsActive(false);
             iAccountRepository.save(account);
             return "Done";
@@ -103,7 +117,6 @@ public class AccountServiceImpl implements IAccountService {
         create(account);
         return "Done";
     }
-
 
 
 }
