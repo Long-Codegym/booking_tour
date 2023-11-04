@@ -19,7 +19,12 @@ public class Bill {
     private long price;
     private long total;
     private int persons;
+    private int children;
+    @Lob
     private String note;
+    private String numberPhone;
+    private String address;
+    private String fullName;
     @ManyToOne
     private Tour tour;
     @ManyToOne

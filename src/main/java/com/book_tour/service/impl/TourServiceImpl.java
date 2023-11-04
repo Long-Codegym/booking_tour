@@ -1,11 +1,16 @@
 package com.book_tour.service.impl;
 
 import com.book_tour.model.Tour;
+import com.book_tour.model.TourSchedule;
+import com.book_tour.model.dto.FilterTour;
+import com.book_tour.model.dto.TourDTO;
 import com.book_tour.repository.ITourRepository;
 import com.book_tour.service.ITourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +19,7 @@ import java.util.List;
 public class TourServiceImpl implements ITourService {
     @Autowired
     ITourRepository iTourRepository;
+
     @Override
     public List<Tour> getAll() {
         return iTourRepository.findAll();
@@ -26,7 +32,7 @@ public class TourServiceImpl implements ITourService {
 
     @Override
     public Tour create(Tour tour) {
-        return iTourRepository.save(tour);
+       return iTourRepository.save(tour);
     }
 
     @Override
@@ -51,14 +57,24 @@ public class TourServiceImpl implements ITourService {
     }
 
     @Override
-    public List<Tour> getAllTourByZone(String zone) {
-        List<Tour> tourList = iTourRepository.getAllTourByZone(zone);
-        return tourList;
+    public List<TourDTO> getAllTourByZone(String zone) {
+        List<TourDTO> tourDTOList = iTourRepository.getAllTourByZone(zone);
+        return tourDTOList;
     }
 
     @Override
-    public Tour getTourById(long idTour) {
-        Tour tour = iTourRepository.findById(idTour).get();
-        return tour;
+    public TourDTO getTourById(long idTour) {
+        TourDTO tourDTO = iTourRepository.getTourDTObyId(idTour);
+        return tourDTO;
+    }
+
+    @Override
+    public List<TourDTO> getAllTourByFilter(FilterTour filterTour) {
+        Long idCity = filterTour.getIdCity();
+        Long minPrice = filterTour.getMinPrice();
+        Long maxPrice = filterTour.getMaxPrice();
+        String nameZOne = filterTour.getNameZone();
+        List<TourDTO> tourDTOList = iTourRepository.getAllTourByFilter(idCity, nameZOne, minPrice, maxPrice);
+        return tourDTOList;
     }
 }
