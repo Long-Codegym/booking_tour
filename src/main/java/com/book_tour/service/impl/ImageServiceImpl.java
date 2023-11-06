@@ -23,6 +23,7 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public Image create(Image image) {
+        iImageRepository.save(image);
         return null;
     }
 

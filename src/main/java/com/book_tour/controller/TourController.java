@@ -69,7 +69,7 @@ public class TourController {
         return new ResponseEntity<>(iTourService.getById(id), HttpStatus.OK);
     }
     @PostMapping("/createTour")
-    public ResponseEntity<Tour> createTour(@RequestBody CreateDTO createDTO) {
+    public ResponseEntity<String> createTour(@RequestBody CreateDTO createDTO) {
         Tour tour = iTourService.create(createDTO.getTour());
         List<TourSchedule> tourSchedules=iTourScheduleService.saveAll(createDTO.getTourSchedules());
         for(int i=0;i<tourSchedules.size();i++) {
@@ -78,6 +78,10 @@ public class TourController {
                     .setParameter(2, tourSchedules.get(i).getId())
                     .executeUpdate();
         }
-        return new ResponseEntity<>(tour, HttpStatus.OK);
+        return new ResponseEntity<>("done", HttpStatus.OK);
+    }
+    @GetMapping("/listTourById/{id}")
+    public ResponseEntity<List<TourDTO>> listTourById(@PathVariable long id){
+        return new ResponseEntity<>(iTourService.getAllTourByIdAcc(id),HttpStatus.OK);
     }
 }

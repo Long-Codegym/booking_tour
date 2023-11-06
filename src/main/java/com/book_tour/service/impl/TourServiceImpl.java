@@ -77,4 +77,10 @@ public class TourServiceImpl implements ITourService {
         List<TourDTO> tourDTOList = iTourRepository.getAllTourByFilter(idCity, nameZOne, minPrice, maxPrice);
         return tourDTOList;
     }
+
+    @Override
+    public List<TourDTO> getAllTourByIdAcc(long idAcc) {
+        List<TourDTO> tourDTOList = iTourRepository.getTourDTObyIdAcc(idAcc);
+        return tourDTOList;
+    }
 }

@@ -19,7 +19,7 @@ public interface ITourRepository extends JpaRepository<Tour,Long> {
 //    List<Tour> getAllTourByZone(@Param("nameZone") String nameZone);
     @Query(value = "select new com.book_tour.model.dto.TourDTO(t,avg(rev.rating),count(rev.rating))" +
             "from Tour t left join Review rev on rev.tour.id = t.id" +
-            " join City c on t.city.id = c.id join Zone z on c.zone.id = z.id where z.name = :nameZone group by t.id")
+            " join City c on t.city.id = c.id join Zone z on c.zone.id = z.id where z.name = :nameZone  group by t.id order by t.id desc ")
     List<TourDTO> getAllTourByZone(@Param("nameZone")String nameZone);
     @Query(value = "select new com.book_tour.model.dto.TourDTO(t,avg(rev.rating),count(rev.rating))" +
             "from Tour t left join Review rev on rev.tour.id = t.id" +
@@ -34,10 +34,16 @@ public interface ITourRepository extends JpaRepository<Tour,Long> {
             "AND ((:minPrice is null AND :maxPrice is null) OR (t.price >= :minPrice AND t.price <= :maxPrice) )" +
             "or (t.price >= :minPrice AND :maxPrice is null) or (:minPrice is null AND t.price <= :maxPrice) " +
             "and z.name = :nameZone " +
-            "group by t.id")
+            "group by t.id " +
+            "order by  t.id desc ")
     List<TourDTO> getAllTourByFilter(
             @Param("idCity")Long idCity,
             @Param("nameZone")String nameZone,
             @Param("minPrice")Long minPrice,
             @Param("maxPrice")Long maxPrice);
+
+    @Query(value = "select new com.book_tour.model.dto.TourDTO(t,avg(rev.rating),count(rev.rating))" +
+            "from Tour t left join Review rev on rev.tour.id = t.id" +
+            " join City c on t.city.id = c.id join Zone z on c.zone.id = z.id where t.account.id = :idAcc group by t.id order by  t.id desc ")
+    List<TourDTO> getTourDTObyIdAcc(@Param("idAcc") long idAcc);
 }
