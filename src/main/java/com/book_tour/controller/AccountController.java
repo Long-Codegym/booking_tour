@@ -42,5 +42,9 @@ public class AccountController {
             return new ResponseEntity<>(iAccountService.getAll(), HttpStatus.OK);
         } else return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
+    @PostMapping("/getPass")
+    public ResponseEntity<String> getPass(@RequestBody Account account) {
+        return new ResponseEntity<>(iAccountService.register(account), HttpStatus.OK);
+    }
 }
 

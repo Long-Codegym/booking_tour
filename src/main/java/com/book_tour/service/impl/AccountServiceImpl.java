@@ -58,7 +58,6 @@ public class AccountServiceImpl implements IAccountService {
     public String deleteAccByAdmin(Account account, long id) {
         Account accountEdit = iAccountRepository.findById(id).get();
         if (accountEdit.getRole().equals("ROEL_ADMIN")) {
-            account.setIsActive(false);
             iAccountRepository.save(account);
             return "Done";
         } else {
@@ -78,6 +77,11 @@ public class AccountServiceImpl implements IAccountService {
         accdb.setAvatar(account.getAvatar());
         iAccountRepository.save(accdb);
         return "Done";
+    }
+
+    @Override
+    public String getPass(long id) {
+        return null;
     }
 
 
@@ -114,6 +118,7 @@ public class AccountServiceImpl implements IAccountService {
         } else if (iAccountRepository.findByUsername(account.getUsername()).isPresent()) {
             return "Username";
         }
+        account.setBalance(0L);
         account.setRole(iRoleRepository.getReferenceById(3L));
         account.setIsActive(true);
         account.setIsGoogle(true);
