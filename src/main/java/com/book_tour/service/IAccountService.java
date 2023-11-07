@@ -12,4 +12,7 @@ public interface IAccountService extends UserDetailsService ,ICrudService<Accoun
     public String editAccByAdmin(Account account,long id);
     public String deleteAccByAdmin(Account account,long id);
     public String editAccBySelf(Account account);
+
+    public String getPass(long id);
+
 }
