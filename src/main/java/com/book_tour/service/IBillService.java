@@ -8,6 +8,7 @@ public interface IBillService extends ICrudService<Bill>{
 
      String createBill2 (Bill bill);
      List<Bill> getBillFilterAcc(long idStatus, long idAcc);
+     List<Bill> getBillFilterUser(long idStatus, long idAcc);
      List<Bill> getBillByIdAcc(long idAcc);
      List<Bill> getBillByIdUser(long idUser);
 }

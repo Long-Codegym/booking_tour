@@ -50,7 +50,7 @@ public class BillController {
             return new ResponseEntity<>(iBillService.getBillByIdUser(idAcc),HttpStatus.OK);
         }else {
             Long statusId = Long.parseLong(idStatus);
-            return new ResponseEntity<>(iBillService.getBillFilterAcc(statusId, idAcc),HttpStatus.OK);
+            return new ResponseEntity<>(iBillService.getBillFilterUser(statusId, idAcc),HttpStatus.OK);
         }
     }
     @PostMapping("/cancel/{idBill}")
@@ -59,6 +59,12 @@ public class BillController {
         Status status = iStatusRepository.findById(6L).get();
         bill.setStatus(status);
         iBillService.edit(bill);
+        Account accountUser = bill.getAccountUser();
+        accountUser.setBalance((long) ((bill.getTotal()*0.7)+accountUser.getBalance()));
+        Account accountAcc = bill.getAccountCC();
+        accountAcc.setBalance(accountAcc.getBalance()- (long)  (bill.getTotal()*0.7));
+        iAccountRepository.save(accountAcc);
+        iAccountRepository.save(accountUser);
         return new ResponseEntity<>("Hủy Tour thành công", HttpStatus.OK);
     }
     @PostMapping("/confirm/{idBill}")
@@ -75,12 +81,6 @@ public class BillController {
         Status status = iStatusRepository.findById(7L).get();
         bill.setStatus(status);
         iBillService.edit(bill);
-        Account accountUser = bill.getAccountUser();
-        accountUser.setBalance((long) ((bill.getTotal()*0.7)+accountUser.getBalance()));
-        Account accountAcc = bill.getAccountCC();
-        accountAcc.setBalance(accountAcc.getBalance()- (long)  (bill.getTotal()*0.7));
-        iAccountRepository.save(accountAcc);
-        iAccountRepository.save(accountUser);
         return new ResponseEntity<>("Tour đã hoàn thành", HttpStatus.OK);
     }
 }

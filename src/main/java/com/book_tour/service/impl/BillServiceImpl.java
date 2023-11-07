@@ -72,6 +72,12 @@ public class BillServiceImpl implements IBillService {
     }
 
     @Override
+    public List<Bill> getBillFilterUser(long idStatus, long idUser) {
+        List<Bill> billList = iBillRepository.findBillsByStatusAndByIdUser(idStatus,idUser);
+        return billList;
+    }
+
+    @Override
     public List<Bill> getBillByIdAcc(long idAcc) {
 
         return iBillRepository.getAllByAccountCC_Id(idAcc);
