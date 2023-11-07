@@ -11,11 +11,15 @@ import com.book_tour.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class BillServiceImpl implements IBillService {
+    @PersistenceContext
+    EntityManager entityManager;
     @Autowired
     IAccountService iAccountService;
     @Autowired
@@ -86,5 +90,21 @@ public class BillServiceImpl implements IBillService {
     @Override
     public List<Bill> getBillByIdUser(long idUser) {
         return iBillRepository.getAllByAccountUser_Id(idUser);
+    }
+
+    @Override
+    public Bill getLatestBillBy2Acc(Long tourId, Long userId) {
+        try {
+            List<Bill>  results= entityManager.createQuery("select b from  Bill b " +
+                    "where b.accountUser.id = :userId and b.tour.id = :tourId and b.isActive = true " +
+                    "and  b.status.id = 7 order by  b.id desc ")
+                    .setMaxResults(1)
+                    .setParameter("tourId", tourId)
+                    .setParameter("userId", userId)
+                    .getResultList();
+            return results.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

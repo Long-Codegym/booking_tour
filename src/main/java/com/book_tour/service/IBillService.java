@@ -11,4 +11,5 @@ public interface IBillService extends ICrudService<Bill>{
      List<Bill> getBillFilterUser(long idStatus, long idAcc);
      List<Bill> getBillByIdAcc(long idAcc);
      List<Bill> getBillByIdUser(long idUser);
+     Bill getLatestBillBy2Acc(Long tourId, Long userId);
 }

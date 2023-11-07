@@ -40,9 +40,13 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public String editAccByAdmin(Account account,long id) {
-        Account accountEdit=iAccountRepository.findById(id).get();
-        if(accountEdit.getRole().equals("ROEL_ADMIN")){
+
+    public String editAccByAdmin(Account account, long id) {
+        Account accountAdmin = iAccountRepository.findById(id).get();
+        if (account.getRole().getName().equals("ROLE_ADMIN")) {
+            return "Vào mục khác để sửa nhé ";
+        }
+        if (accountAdmin.getRole().getName().equals("ROLE_ADMIN")) {
             iAccountRepository.save(account);
             return "Done";
         } else {
@@ -52,14 +56,28 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public String deleteAccByAdmin(Account account, long id) {
-        Account accountEdit=iAccountRepository.findById(id).get();
-        if(accountEdit.getRole().equals("ROEL_ADMIN")){
+        Account accountEdit = iAccountRepository.findById(id).get();
+        if (accountEdit.getRole().equals("ROEL_ADMIN")) {
             account.setIsActive(false);
             iAccountRepository.save(account);
             return "Done";
         } else {
             return "405 Đây là quyền sửa của Admin";
         }
+    }
+
+    @Override
+    public String editAccBySelf(Account account) {
+        if (!account.getIsActive()) {
+            return "Account bị khóa quyền";
+        }
+        Account accdb = iAccountRepository.findById(account.getId()).get();
+        accdb.setEmail(account.getEmail());
+        accdb.setAddress(account.getAddress());
+        accdb.setFullName(account.getFullName());
+        accdb.setAvatar(account.getAvatar());
+        iAccountRepository.save(accdb);
+        return "Done";
     }
 
 
@@ -103,7 +121,6 @@ public class AccountServiceImpl implements IAccountService {
         create(account);
         return "Done";
     }
-
 
 
 }

@@ -22,9 +22,13 @@ public class AccountController {
         return new ResponseEntity<>(iAccountService.register(account), HttpStatus.OK);
     }
 
-    @PostMapping("/editAccount/{id}")
-    public ResponseEntity<String> editAccount(@RequestBody Account account, @PathVariable long id) {
-        return new ResponseEntity<>(iAccountService.editAccByAdmin(account, id), HttpStatus.OK);
+    @PostMapping("/editAccount")
+    public ResponseEntity<String> editAccount(@RequestBody Account account, @RequestParam long id) {
+        if (id <= 0) {
+            return new ResponseEntity<>(iAccountService.editAccBySelf(account), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(iAccountService.editAccByAdmin(account, id), HttpStatus.OK);
+        }
     }
 
     @PostMapping("/deleteAccount")
