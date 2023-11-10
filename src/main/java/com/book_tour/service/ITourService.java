@@ -11,5 +11,6 @@ public interface ITourService extends ICrudService<Tour>{
     List<TourDTO> getAllTourByZone(String zone);
     TourDTO getTourById(long idTour);
     List<TourDTO> getAllTourByFilter(FilterTour filterTour);
+    List<TourDTO> getAllTourByIdAcc(long idAcc);
 
 }
