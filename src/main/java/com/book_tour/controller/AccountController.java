@@ -6,6 +6,8 @@ import com.book_tour.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class AccountController {
     }
 
     @PostMapping("/editAccount")
-    public ResponseEntity<String> editAccount(@RequestBody Account account, @RequestParam long id) {
+    public ResponseEntity<String> editAccount(@RequestParam long id, @RequestBody Account account) {
         if (id <= 0) {
             return new ResponseEntity<>(iAccountService.editAccBySelf(account), HttpStatus.OK);
         } else {
@@ -42,9 +44,24 @@ public class AccountController {
             return new ResponseEntity<>(iAccountService.getAll(), HttpStatus.OK);
         } else return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
     }
-    @PostMapping("/getPass")
-    public ResponseEntity<String> getPass(@RequestBody Account account) {
-        return new ResponseEntity<>(iAccountService.register(account), HttpStatus.OK);
+
+    @GetMapping("/setNewPass")
+    public ResponseEntity<String> setNewPass(@RequestParam String NewPassword, @RequestParam String OldPassword) {
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Account account = iAccountService.findAccByUserName(userDetails.getUsername()).orElse(null);
+            if (account != null) {
+                return new ResponseEntity<>(iAccountService.setNewPass(NewPassword, account,OldPassword), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @GetMapping("/levelUp")
+    public ResponseEntity<String> levelUp(@RequestParam long id){
+        return new ResponseEntity<>(iAccountService.upRole(id), HttpStatus.OK);
     }
 }
 

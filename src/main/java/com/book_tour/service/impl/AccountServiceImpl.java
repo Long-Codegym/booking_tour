@@ -26,6 +26,7 @@ public class AccountServiceImpl implements IAccountService {
     @Autowired
     IStatusRepository iStatusRepository;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = iAccountRepository.findByUsername(username).orElse(null);
@@ -80,8 +81,32 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public String getPass(long id) {
-        return null;
+    public Optional<Account> findAccByUserName(String name) {
+        return iAccountRepository.findByUsername(name);
+    }
+
+    @Override
+    public String setNewPass(String nPassword, Account account, String oPassword) {
+        if (account.getPassword().equals(oPassword)) {
+            account.setPassword(nPassword);
+            iAccountRepository.save(account);
+            return "Done";
+        }
+        return "Mật Khẩu Cũ Ko Đúng";
+    }
+
+    @Override
+    public String upRole(long id) {
+        Account account = iAccountRepository.findById(id).get();
+        if (account.getBalance() < 1000000) {
+            return "Tài khoản ko đủ số dư";
+        } else if (!account.getIsActive()) {
+            return "Tài khoản bị khóa";
+        }
+        account.setBalance(account.getBalance()-1000000);
+        account.setRole(iRoleRepository.getReferenceById(2L));
+        iAccountRepository.save(account);
+        return "Done";
     }
 
 
