@@ -80,8 +80,17 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public String getPass(long id) {
-        return null;
+    public Optional< Account> findAccByUserName(String name) {
+        return iAccountRepository.findByUsername(name);
+    }
+
+    @Override
+    public String setNewPass(String nPassword,Account account,String oPassword) {
+        if(account.getPassword().equals(oPassword)){
+        account.setPassword(nPassword);
+        iAccountRepository.save(account);
+        return "Done";}
+        return "Mật Khẩu Ko Đúng";
     }
 
 
