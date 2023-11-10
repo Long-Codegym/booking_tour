@@ -49,7 +49,6 @@ public class AccountController {
     public ResponseEntity<String> setNewPass(@RequestParam String NewPassword, @RequestParam String OldPassword) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
             Account account = iAccountService.findAccByUserName(userDetails.getUsername()).orElse(null);
             if (account != null) {
                 return new ResponseEntity<>(iAccountService.setNewPass(NewPassword, account,OldPassword), HttpStatus.OK);
@@ -58,6 +57,11 @@ public class AccountController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping("/levelUp")
+    public ResponseEntity<String> levelUp(@RequestParam long id){
+        return new ResponseEntity<>(iAccountService.upRole(id), HttpStatus.OK);
     }
 }
 

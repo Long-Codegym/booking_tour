@@ -20,4 +20,6 @@ public interface IAccountService extends UserDetailsService, ICrudService<Accoun
     public Optional<Account> findAccByUserName(String name);
     public String setNewPass(String nPassword,Account account,String oPassword);
 
+    public String upRole(long id);
+
 }
