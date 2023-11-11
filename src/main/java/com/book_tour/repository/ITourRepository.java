@@ -31,8 +31,8 @@ public interface ITourRepository extends JpaRepository<Tour,Long> {
             "join City c on t.city.id = c.id " +
             "join Zone z on c.zone.id = z.id " +
             "where (:idCity is null or c.id = :idCity) " +
-            "AND ((:minPrice is null AND :maxPrice is null) OR (t.price >= :minPrice AND t.price <= :maxPrice) )" +
-            "or (t.price >= :minPrice AND :maxPrice is null) or (:minPrice is null AND t.price <= :maxPrice) " +
+            "and (:minPrice is null AND :maxPrice is null) or (t.price >= :minPrice AND t.price <= :maxPrice)  " +
+            "or ((t.price >= :minPrice AND :maxPrice is null) or (:minPrice is null AND t.price <= :maxPrice)) " +
             "and z.name = :nameZone " +
             "group by t.id " +
             "order by  t.id desc ")
